@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+    <title>Search</title>
+    <style>
+        table.blueTable {
+            border: 1px solid #1C6EA4;
+            background-color: #EEEEEE;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+            font-family: "B Nazanin", Serif;
+            font-size: 20px;
+        }
+
+        table.blueTable td, table.blueTable th {
+            border: 1px solid #AAAAAA;
+            padding: 3px 2px;
+        }
+
+        table.blueTable tbody td {
+            font-size: 20px;
+        }
+
+        table.blueTable tr:nth-child(even) {
+            background: #D0E4F5;
+        }
+
+        table.blueTable thead {
+            background: #1C6EA4;
+            background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+            background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+            background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+            border-bottom: 2px solid #444444;
+        }
+
+        table.blueTable thead th {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFFFFF;
+            border-left: 2px solid #D0E4F5;
+        }
+
+        table.blueTable thead th:first-child {
+            border-left: none;
+        }
+
+        table.blueTable tfoot {
+            font-size: 19px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background: #D0E4F5;
+            background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+            background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+            background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+            border-top: 2px solid #444444;
+        }
+
+        table.blueTable tfoot td {
+            font-size: 20px;
+        }
+
+        table.blueTable tfoot .links {
+            text-align: right;
+        }
+
+        table.blueTable tfoot .links a {
+            display: inline-block;
+            background: #1C6EA4;
+            color: #FFFFFF;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<table class="blueTable">
+    <thead>
+    <tr>
+        <th> Id</th>
+        <th> نام</th>
+        <th> موضوع</th>
+        <th> روز</th>
+        <th> ماه</th>
+        <th> سال</th>
+        <th> قیمت</th>
+        <th> اطلاعات</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${list.empty}">
+        <td colspan="8"> No Spends Available</td>
+    </tr>
+    <tr th:each="spend : ${list}">
+        <td><span th:text="${spend.Id}"> Id </span></td>
+        <td><span th:text="${spend.owner}"> نام </span></td>
+        <td><span th:text="${spend.name}"> موضوع </span></td>
+        <td><span th:text="${spend.day}"> روز </span></td>
+        <td><span th:text="${spend.month}"> ماه </span></td>
+        <td><span th:text="${spend.year}"> سال </span></td>
+        <td><span th:text="${spend.price}"> قیمت </span></td>
+        <td><span th:text="${spend.additionalInformation}"> اطلاعات </span></td>
+    </tr>
+    <tr>
+        <td><span>مجموع   </span></td>
+        <td><span>  </span></td>
+        <td><span>  </span></td>
+        <td><span>  </span></td>
+        <td><span>  </span></td>
+        <td><span></span></td>
+        <td><span th:text="${total}"></span></td>
+        <td><span></span></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
