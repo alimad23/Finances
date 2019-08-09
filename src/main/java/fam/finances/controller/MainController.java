@@ -6,11 +6,9 @@ import fam.finances.entity.SpendDto;
 import fam.finances.manager.SpendManager;
 import fam.finances.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
