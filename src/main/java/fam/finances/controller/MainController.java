@@ -1,11 +1,13 @@
 package fam.finances.controller;
 
+import fam.finances.config.IAuthenticationFacade;
 import fam.finances.entity.SearchDto;
 import fam.finances.entity.Spend;
 import fam.finances.entity.SpendDto;
 import fam.finances.manager.SpendManager;
 import fam.finances.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,16 +22,24 @@ public class MainController {
     @Autowired
     private UserManager userManager;
 
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
+
     @GetMapping("/")
     public ModelAndView homePage() {
         ModelAndView modelAndView = new ModelAndView("index.html");
         return modelAndView;
+        //how to get username
+        //Authentication authentication = authenticationFacade.getAuthentication();
+        //String username = authentication.getName();
     }
 
     @GetMapping("/spend/owner/{owner}")
     public ModelAndView getSpendsByOwner(@PathVariable("owner") String owner) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByOwner(owner);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwner(username, owner);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -38,7 +48,9 @@ public class MainController {
     @GetMapping("/spend/name/{name}")
     public ModelAndView getSpendsByName(@PathVariable("name") String name) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByName(name);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByName(name, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -47,7 +59,9 @@ public class MainController {
     @GetMapping("/spend/name/{name}/{year}")
     public ModelAndView getSpendsByNameAndYear(@PathVariable("name") String name, @PathVariable("year") Integer year) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByNameAndYear(name, year);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByNameAndYear(name, year, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -57,7 +71,9 @@ public class MainController {
     public ModelAndView getSpendsByNameAndYearAndMonth(@PathVariable("name") String name, @PathVariable("year") Integer year,
                                                        @PathVariable("month") Integer month) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByNameAndYearAndMonth(name, year, month);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByNameAndYearAndMonth(name, year, month, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -67,7 +83,9 @@ public class MainController {
     public ModelAndView getSpendsByNameAndDate(@PathVariable("name") String name, @PathVariable("year") Integer year,
                                                @PathVariable("month") Integer month, @PathVariable("day") Integer day) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByNameAndDate(name, year, month, day);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByNameAndDate(name, year, month, day, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -76,7 +94,9 @@ public class MainController {
     @GetMapping("/spend/{year}")
     public ModelAndView getSpendsByYear(@PathVariable("year") Integer year) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
-        List<Spend> spends = spendManager.loadSpendsByYear(year);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByYear(year, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
         return modelAndView;
@@ -84,7 +104,9 @@ public class MainController {
 
     @GetMapping("/spend/{year}/{month}")
     public ModelAndView getSpendsByYearAndMonth(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
-        List<Spend> spends = spendManager.loadSpendsByYearAndMonth(year, month);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByYearAndMonth(year, month, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -93,7 +115,9 @@ public class MainController {
 
     @GetMapping("/spend/{year}/{month}/{day}")
     public ModelAndView getSpendsByDate(@PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("day") Integer day) {
-        List<Spend> spends = spendManager.loadSpendsByDate(year, month, day);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByDate(year, month, day, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -102,7 +126,9 @@ public class MainController {
 
     @GetMapping("/spend/owner/{owner}/{year}")
     public ModelAndView getSpendsByOwnerAndYear(@PathVariable("owner") String owner, @PathVariable("year") Integer year) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndYear(owner, year);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndYear(owner, year, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -112,7 +138,9 @@ public class MainController {
     @GetMapping("/spend/owner/{owner}/{year}/{month}")
     public ModelAndView getSpendsByOwnerAndYearAndMonth(@PathVariable("owner") String owner, @PathVariable("year") Integer year,
                                                         @PathVariable("month") Integer month) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndYearAndMonth(owner, year, month);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndYearAndMonth(owner, year, month, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -122,7 +150,9 @@ public class MainController {
     @GetMapping("/spend/owner/{owner}/{year}/{month}/{day}")
     public ModelAndView getSpendsByOwnerAndDate(@PathVariable("owner") String owner, @PathVariable("year") Integer year,
                                                 @PathVariable("month") Integer month, @PathVariable("day") Integer day) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndDate(owner, year, month, day);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndDate(owner, year, month, day, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -131,7 +161,9 @@ public class MainController {
 
     @GetMapping("/spend/owner/{owner}/name/{name}")
     public ModelAndView getSpendsByOwnerAndName(@PathVariable("owner") String owner, @PathVariable("name") String name) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndName(owner, name);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndName(owner, name, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -141,7 +173,9 @@ public class MainController {
     @GetMapping("/spend/owner/{owner}/name/{name}/{year}")
     public ModelAndView getSpendsByOwnerAndNameAndYear(@PathVariable("owner") String owner, @PathVariable("name") String name
             , @PathVariable("year") Integer year) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndYear(owner, name, year);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndYear(owner, name, year, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -152,7 +186,9 @@ public class MainController {
     public ModelAndView getSpendsByOwnerAndNameAndYearAndMonth(@PathVariable("owner") String owner, @PathVariable("name") String name
             , @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
         System.out.println("shit happened");
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndYearAndMonth(owner, name, year, month);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndYearAndMonth(owner, name, year, month, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -162,7 +198,9 @@ public class MainController {
     @GetMapping("/spend/owner/{owner}/name/{name}/{year}/{month}/{day}")
     public ModelAndView getSpendsByOwnerAndNameAndDate(@PathVariable("owner") String owner, @PathVariable("name") String name
             , @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("day") Integer day) {
-        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndDate(owner, name, year, month, day);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        List<Spend> spends = spendManager.loadSpendsByOwnerAndNameAndDate(owner, name, year, month, day, username);
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
@@ -177,13 +215,15 @@ public class MainController {
 
     @PostMapping("/added")
     public ModelAndView addSpend(SpendDto spendDto) {
-        boolean flag = spendManager.saveSpend(spendDto);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        boolean flag = spendManager.saveSpend(spendDto, username);
         ModelAndView modelAndView = new ModelAndView("added.html");
-        if (!flag){
-            modelAndView.addObject("error","an error has been occurred");
+        if (!flag) {
+            modelAndView.addObject("error", "an error has been occurred");
         }
-        if (flag){
-            modelAndView.addObject("error","OK!");
+        if (flag) {
+            modelAndView.addObject("error", "OK!");
         }
         return modelAndView;
     }

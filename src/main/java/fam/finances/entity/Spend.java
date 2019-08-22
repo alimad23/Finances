@@ -39,4 +39,8 @@ public class Spend {
     private Integer day;
 
     private String additionalInformation;
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
 }

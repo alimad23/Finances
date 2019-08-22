@@ -6,33 +6,33 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SpendRepository extends JpaRepository<Spend, Long> {
-    List<Spend> findByOwner(String owner);
+    List<Spend> findByOwnerAndUser_Username(String owner, String username);
 
-    List<Spend> findByName(String name);
+    List<Spend> findByNameAndUser_Username(String name, String username);
 
-    List<Spend> findByYear(Integer year);
+    List<Spend> findByYearAndUser_Username(Integer year, String username);
 
-    List<Spend> findByYearAndMonth(Integer year, Integer month);
+    List<Spend> findByYearAndMonthAndUser_Username(Integer year, Integer month, String username);
 
-    List<Spend> findByYearAndMonthAndDay(Integer year, Integer month, Integer day);
+    List<Spend> findByYearAndMonthAndDayAndUser_Username(Integer year, Integer month, Integer day, String username);
 
-    List<Spend> findByOwnerAndYear(String owner, Integer year);
+    List<Spend> findByOwnerAndYearAndUser_Username(String owner, Integer year, String username);
 
-    List<Spend> findByOwnerAndYearAndMonth(String owner, Integer year, Integer month);
+    List<Spend> findByOwnerAndYearAndMonthAndUser_Username(String owner, Integer year, Integer month, String username);
 
-    List<Spend> findByNameAndYear(String name, Integer year);
+    List<Spend> findByNameAndYearAndUser_Username(String name, Integer year, String username);
 
-    List<Spend> findByNameAndYearAndMonth(String name, Integer year, Integer month);
+    List<Spend> findByNameAndYearAndMonthAndUser_Username(String name, Integer year, Integer month, String username);
 
-    List<Spend> findByOwnerAndName(String owner, String name);
+    List<Spend> findByOwnerAndNameAndUser_Username(String owner, String name, String username);
 
-    List<Spend> findByOwnerAndNameAndYear(String owner, String name, Integer year);
+    List<Spend> findByOwnerAndNameAndYearAndUser_Username(String owner, String name, Integer year, String username);
 
-    List<Spend> findByOwnerAndNameAndYearAndMonth(String owner, String name, Integer year, Integer month);
+    List<Spend> findByOwnerAndNameAndYearAndMonthAndUser_Username(String owner, String name, Integer year, Integer month, String username);
 
-    List<Spend> findByOwnerAndNameAndYearAndMonthAndDay(String owner, String name, Integer year, Integer month, Integer day);
+    List<Spend> findByOwnerAndNameAndYearAndMonthAndDayAndUser_Username(String owner, String name, Integer year, Integer month, Integer day, String username);
 
-    List<Spend> findByNameAndYearAndMonthAndDay(String name, Integer year, Integer month, Integer day);
+    List<Spend> findByNameAndYearAndMonthAndDayAndUser_Username(String name, Integer year, Integer month, Integer day, String username);
 
-    List<Spend> findByOwnerAndYearAndMonthAndDay(String owner, Integer year, Integer month, Integer day);
+    List<Spend> findByOwnerAndYearAndMonthAndDayAndUser_Username(String owner, Integer year, Integer month, Integer day, String username);
 }

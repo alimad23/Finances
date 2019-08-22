@@ -3,6 +3,7 @@ package fam.finances.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -25,4 +26,9 @@ public class User {
     private String username;
 
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Spend> spends;
+
+    private Integer remainder;
 }
