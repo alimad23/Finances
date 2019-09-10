@@ -1,6 +1,7 @@
 package fam.finances.controller;
 
 import fam.finances.config.IAuthenticationFacade;
+import fam.finances.entity.MoneyDto;
 import fam.finances.entity.SearchDto;
 import fam.finances.entity.Spend;
 import fam.finances.entity.SpendDto;
@@ -34,6 +35,12 @@ public class MainController {
         //String username = authentication.getName();
     }
 
+    @GetMapping("/addMoney")
+    public ModelAndView addMoney(){
+        ModelAndView modelAndView = new ModelAndView("add-money.html");
+        return modelAndView;
+    }
+
     @GetMapping("/spend/owner/{owner}")
     public ModelAndView getSpendsByOwner(@PathVariable("owner") String owner) {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
@@ -42,6 +49,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByOwner(username, owner);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -53,6 +61,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByName(name, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -64,6 +73,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByNameAndYear(name, year, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -76,6 +86,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByNameAndYearAndMonth(name, year, month, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -88,6 +99,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByNameAndDate(name, year, month, day, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -99,6 +111,7 @@ public class MainController {
         List<Spend> spends = spendManager.loadSpendsByYear(year, username);
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -110,6 +123,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -121,6 +135,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -132,6 +147,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -144,6 +160,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -156,6 +173,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -167,6 +185,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -179,6 +198,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -192,6 +212,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -204,6 +225,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("show-result.html");
         modelAndView.addObject("list", spends);
         modelAndView.addObject("total", total(spends));
+        modelAndView.addObject("remainder", userManager.loadRemainderByUsername(username));
         return modelAndView;
     }
 
@@ -223,7 +245,7 @@ public class MainController {
             modelAndView.addObject("error", "an error has been occurred");
         }
         if (flag) {
-            modelAndView.addObject("error", "OK!");
+            modelAndView.addObject("error", "OK!, and remainder of your account is : " + userManager.loadRemainderByUsername(username));
         }
         return modelAndView;
     }
@@ -302,10 +324,25 @@ public class MainController {
         }
     }
 
+    @PostMapping("/addMoney")
+    public ModelAndView addMoney(MoneyDto moneyDto){
+        ModelAndView modelAndView = new ModelAndView("added.html");
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String username = authentication.getName();
+        boolean flag = spendManager.addMoney(moneyDto.getAmount(), username);
+        if (!flag) {
+            modelAndView.addObject("error", "an error has been occurred");
+        }
+        if (flag) {
+            modelAndView.addObject("error", "OK!, and remainder of your account is : " + userManager.loadRemainderByUsername(username));
+        }
+        return modelAndView;
+    }
+
 
     //=============NON-API=================
     private Integer total(List<Spend> spends) {
-        Integer result = new Integer(0);
+        Integer result = 0;
         for (int i = 0; i < spends.size(); i++) {
             result += spends.get(i).getPrice();
         }

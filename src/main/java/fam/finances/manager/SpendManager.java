@@ -105,4 +105,14 @@ public class SpendManager {
         List<Spend> spends = spendRepository.findByOwnerAndYearAndMonthAndDayAndUser_Username(owner, year, month, day, username);
         return spends;
     }
+
+    public boolean addMoney(Integer amount, String username) {
+        try {
+            userManager.addMoney(amount, username);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

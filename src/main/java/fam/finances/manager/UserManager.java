@@ -45,4 +45,18 @@ public class UserManager implements UserDetailsService {
             userRepository.save(user);
         }
     }
+
+    public int loadRemainderByUsername(String username) {
+        return laodUserByUsername(username).getRemainder();
+    }
+
+    public void addMoney(Integer amount, String username) {
+        User user = laodUserByUsername(username);
+        Integer remainder = laodUserByUsername(username).getRemainder();
+        if (remainder != -1) {
+            Integer rem = remainder + amount;
+            user.setRemainder(rem);
+            userRepository.save(user);
+        }
+    }
 }
